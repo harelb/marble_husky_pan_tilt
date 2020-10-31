@@ -7,6 +7,8 @@
   <arg name="tilt_joint_name" value="tilt_gimbal_joint"/>-->
   <arg name="sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/$(arg link_name)/sensor"/>
   <arg name="gimbal_sensor_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_link/sensor"/>
+  <arg name="gimbal_sensor_rl_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_rl_link/sensor"/>
+  <arg name="gimbal_sensor_sp_prefix" value="/world/$(arg world_name)/model/$(arg name)/link/tilt_gimbal_sp_link/sensor"/>
   <arg name="breadcrumbs" default="0"/>
   <group ns="$(arg name)">
     <!--Create multipe bridges so that it can run in parallel-->
@@ -68,6 +70,42 @@
       name="ros_ign_bridge_gimbal_tilt"
       args="/model/$(arg name)/joint/tilt_gimbal_joint/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/tilt_gimbal_joint/0/cmd_pos" to="pan_tilt/tilt_pos_cmd_double"/>
+    </node>
+
+    <!--RL pan tilt -->
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_pan_rl"
+      args="/model/$(arg name)/joint/pan_gimbal_rl_joint/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/pan_gimbal_rl_joint/0/cmd_pos" to="pan_tilt_rl/pan_pos_cmd_double"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_tilt_rl"
+      args="/model/$(arg name)/joint/tilt_gimbal_rl_joint/0/cmd_posl@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/tilt_gimbal_rl_joint/0/cmd_pos" to="pan_tilt_rl/tilt_pos_cmd_double"/>
+    </node>
+
+    <!--SP pan tilt -->
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_pan_sp"
+      args="/model/$(arg name)/joint/pan_gimbal_sp_joint/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/pan_gimbal_sp_joint/0/cmd_pos" to="pan_tilt_sp/pan_pos_cmd_double"/>
+    </node>
+
+    <node
+      pkg="ros_ign_bridge"
+      type="parameter_bridge"
+      name="ros_ign_bridge_gimbal_tilt_sp"
+      args="/model/$(arg name)/joint/tilt_gimbal_sp_joint/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
+      <remap from="/model/$(arg name)/joint/tilt_gimbal_sp_joint/0/cmd_pos" to="pan_tilt_sp/tilt_pos_cmd_double"/>
     </node>
 
     <!-- Joint Publisher (Publishes to topic but doesn't control...)-->
@@ -219,6 +257,102 @@
       <remap from="input/image" to="pan_tilt/depth" />
       <remap from="output/image" to="pan_tilt/optical/depth" />
     </node>
+
+    <!--Pan Tilt RL RGBD camera -->
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_camera_pan_tilt_rl"
+    args="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+    <remap from="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/camera_info" to="pan_tilt_rl/camera_info"/>
+  </node>
+  <node
+    pkg="ros_ign_image"
+    type="image_bridge"
+    name="ros_ign_image_camera_pan_tilt_rl"
+    args="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/image">
+    <remap from="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/image" to="pan_tilt_rl/image_raw"/>
+  </node>
+  <node
+    pkg="ros_ign_bridge"
+    type="parameter_bridge"
+    name="ros_ign_bridge_rgbd_pan_tilt_rl"
+    args="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+    <remap from="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/points" to="pan_tilt_rl_rgbd_camera/depth/points"/>
+  </node>
+  <node
+    pkg="ros_ign_image"
+    type="image_bridge"
+    name="ros_ign_image_depth_pan_tilt_rl"
+    args="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/depth_image">
+    <remap from="$(arg gimbal_sensor_rl_prefix)/camera_pan_tilt_rl/depth_image" to="pan_tilt_rl/depth"/>
+  </node>
+  <node
+    pkg="subt_ros"
+    type="optical_frame_publisher"
+    name="optical_frame_publisher_image_pan_tilt_rl">
+    <remap from="input/image" to="pan_tilt_rl/image_raw" />
+    <remap from="output/image" to="pan_tilt_rl/optical/image_raw" />
+    <remap from="input/camera_info" to="pan_tilt_rl/camera_info" />
+    <remap from="output/camera_info" to="pan_tilt_rl/optical/camera_info" />
+  </node>
+  <node
+    pkg="subt_ros"
+    type="optical_frame_publisher"
+    name="optical_frame_publisher_depth_pan_tilt_rl"
+    args="depth">
+    <remap from="input/image" to="pan_tilt_rl/depth" />
+    <remap from="output/image" to="pan_tilt_rl/optical/depth" />
+  </node>
+
+
+  <!--Pan Tilt RGBD Sphere camera -->
+<node
+  pkg="ros_ign_bridge"
+  type="parameter_bridge"
+  name="ros_ign_bridge_camera_pan_tilt_sp"
+  args="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/camera_info@sensor_msgs/CameraInfo[ignition.msgs.CameraInfo">
+  <remap from="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/camera_info" to="pan_tilt_sp/camera_info"/>
+</node>
+<node
+  pkg="ros_ign_image"
+  type="image_bridge"
+  name="ros_ign_image_camera_pan_tilt_sp"
+  args="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/image">
+  <remap from="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/image" to="pan_tilt_sp/image_raw"/>
+</node>
+<node
+  pkg="ros_ign_bridge"
+  type="parameter_bridge"
+  name="ros_ign_bridge_rgbd_pan_tilt_sp"
+  args="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
+  <remap from="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/points" to="pan_tilt_sp_rgbd_camera/depth/points"/>
+</node>
+<node
+  pkg="ros_ign_image"
+  type="image_bridge"
+  name="ros_ign_image_depth_pan_tilt_sp"
+  args="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/depth_image">
+  <remap from="$(arg gimbal_sensor_sp_prefix)/camera_pan_tilt_sp/depth_image" to="pan_tilt_sp/depth"/>
+</node>
+<node
+  pkg="subt_ros"
+  type="optical_frame_publisher"
+  name="optical_frame_publisher_image_pan_tilt_sp">
+  <remap from="input/image" to="pan_tilt_sp/image_raw" />
+  <remap from="output/image" to="pan_tilt_sp/optical/image_raw" />
+  <remap from="input/camera_info" to="pan_tilt_sp/camera_info" />
+  <remap from="output/camera_info" to="pan_tilt_sp/optical/camera_info" />
+</node>
+<node
+  pkg="subt_ros"
+  type="optical_frame_publisher"
+  name="optical_frame_publisher_depth_pan_tilt_sp"
+  args="depth">
+  <remap from="input/image" to="pan_tilt_sp/depth" />
+  <remap from="output/image" to="pan_tilt_sp/optical/depth" />
+</node>
+
 
     <!--OS1-64 3D Laser-->
     <node

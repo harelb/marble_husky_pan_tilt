@@ -263,12 +263,13 @@
       <mass value='0.1'/>
       <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
     </inertial>
-    <collision name='pan_gimbal_link_collision'>
+<!--    <collision name='pan_gimbal_link_collision'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
         <cylinder radius='0.014' length='0.045'/>
       </geometry>
     </collision>
+  -->
     <visual name='pan_gimbal_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
@@ -282,12 +283,14 @@
       <mass value='0.1'/>
       <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
     </inertial>
+  <!--
     <collision name='tilt_gimbal_link_collision'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
         <cylinder radius='0.014' length='0.045'/>
       </geometry>
     </collision>
+  -->
     <visual name='tilt_gimbal_link_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
@@ -319,11 +322,59 @@
       </geometry>
     </visual>
   </link>
-  <sensor name='camera_pan_tilt' update_rate='30'>
+
+<!--Multiple Pan Tilt-->
+<link name='${robot_namespace}/pan_gimbal_rl_link'>
+  <inertial>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+    <mass value='0.1'/>
+    <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
+  </inertial>
+</link>
+<link name='${robot_namespace}/tilt_gimbal_rl_link'>
+  <inertial>
+    <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+    <mass value='0.1'/>
+    <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
+  </inertial>
+</link>
+
+<link name='${robot_namespace}/pan_gimbal_sp_link'>
+  <inertial>
+    <origin xyz='0 0 0' rpy='0 -0 0'/>
+    <mass value='0.1'/>
+    <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
+  </inertial>
+</link>
+<link name='${robot_namespace}/tilt_gimbal_sp_link'>
+  <inertial>
+    <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
+    <mass value='0.1'/>
+    <inertia ixx='1' ixy='0' ixz='0' iyy='1' iyz='0' izz='1'/>
+  </inertial>
+</link>
+
+
+
+  <sensor name='camera_pan_tilt' update_rate='10'>
     <parent link='tilt_gimbal_link'/>
     <origin xyz='0 0 0.03' rpy='0 -0 0'/>
     <camera>
-      <image width='1280' height='720' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+      <image width='340' height='240' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_pan_tilt_rl' update_rate='10'>
+    <parent link='tilt_gimbal_rl_link'/>
+    <origin xyz='0 0 0.03' rpy='0 -0 0'/>
+    <camera>
+      <image width='340' height='240' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
+    </camera>
+  </sensor>
+  <sensor name='camera_pan_tilt_sp' update_rate='10'>
+    <parent link='tilt_gimbal_sp_link'/>
+    <origin xyz='0 0 0.03' rpy='0 -0 0'/>
+    <camera>
+      <image width='340' height='240' format='R8G8B8' hfov='1.5184' near='0.01' far='300' />
     </camera>
   </sensor>
   <joint name='front_left_wheel_joint' type='revolute'>
@@ -374,4 +425,41 @@
     <axis xyz='0 1 0'/>
     <limit lower='-2.79253' upper='2.79253' effort='-1' velocity='-1'/>
   </joint>
+
+<!--Multiple Pan Tilt-->
+<joint name='pan_gimbal_rl_joint' type='revolute'>
+  <origin xyz='0.424 0 0.427' rpy='0 -0 0'/>
+  <parent link='base_link'/>
+  <child link='pan_gimbal_rl_link'/>
+  <dynamics damping='0' friction='0' />
+  <axis xyz='0 0 1'/>
+  <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+</joint>
+<joint name='tilt_gimbal_rl_joint' type='revolute'>
+  <origin xyz='0.424 0 0.46' rpy='0 -0 0'/>
+  <parent link='pan_gimbal_rl_link'/>
+  <child link='tilt_gimbal_rl_link'/>
+  <dynamics damping='0' friction='0' />
+  <axis xyz='0 1 0'/>
+  <limit lower='-2.79253' upper='2.79253' effort='-1' velocity='-1'/>
+</joint>
+
+<joint name='pan_gimbal_sp_joint' type='revolute'>
+  <origin xyz='0.424 0 0.427' rpy='0 -0 0'/>
+  <parent link='base_link'/>
+  <child link='pan_gimbal_sp_link'/>
+  <dynamics damping='0' friction='0' />
+  <axis xyz='0 0 1'/>
+  <limit lower='-1e+16' upper='1e+16' effort='-1' velocity='-1'/>
+</joint>
+<joint name='tilt_gimbal_sp_joint' type='revolute'>
+  <origin xyz='0.424 0 0.46' rpy='0 -0 0'/>
+  <parent link='pan_gimbal_sp_link'/>
+  <child link='tilt_gimbal_sp_link'/>
+  <dynamics damping='0' friction='0' />
+  <axis xyz='0 1 0'/>
+  <limit lower='-2.79253' upper='2.79253' effort='-1' velocity='-1'/>
+</joint>
+
+
 </robot>

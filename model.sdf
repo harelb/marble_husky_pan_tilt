@@ -829,6 +829,7 @@
           <izz>0.000016875</izz>
         </inertia>
       </inertial>
+<!--
       <collision name="pan_gimbal_link_collision">
       <pose frame="">0.0 0 0.0 0 -0 0</pose>
       <geometry>
@@ -846,6 +847,7 @@
         </contact>
       </surface>
       </collision>
+    -->
       <visual name="pan_gimbal_link_visual">
         <pose frame="">0.0 0 0.0 0 -0 0</pose>
         <geometry>
@@ -870,7 +872,7 @@
           <izz>0.000016875</izz>
         </inertia>
       </inertial>
-
+<!--
       <collision name="tilt_gimbal_link_collision">
       <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
       <geometry>
@@ -888,6 +890,7 @@
         </contact>
       </surface>
       </collision>
+    -->
       <visual name="tilt_gimbal_link_visual">
         <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
         <geometry>
@@ -900,30 +903,30 @@
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="camera_pan_tilt" type="rgbd_camera">
         <camera name="camera_pan_tilt">
-            <horizontal_fov>1.5184</horizontal_fov>
+            <horizontal_fov>1.74533</horizontal_fov>
             <lens>
                 <intrinsics>
                     <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
-                    <fx>337.22195</fx>
-                    <fy>337.22195</fy>
+                    <fx>209.75369</fx>
+                    <fy>209.75369</fy>
                     <!-- cx = ( width + 1 ) / 2 -->
-                    <cx>320.5</cx>
+                    <cx>176.7779</cx>
                     <!-- cy = ( height + 1 ) / 2 -->
-                    <cy>240.5</cy>
+                    <cy>147.824203</cy>
                     <s>0</s>
                 </intrinsics>
             </lens>
             <distortion>
-                <k1>0.0</k1>
-                <k2>0.0</k2>
-                <k3>0.0</k3>
-                <p1>0.0</p1>
-                <p2>0.0</p2>
+                <k1>-0.32094</k1>
+                <k2>0.008704</k2>
+                <k3>-0.009904</k3>
+                <p1>-0.000535447</p1>
+                <p2>-0.000149773</p2>
                 <center>0.5 0.5</center>
             </distortion>
             <image>
-                <width>640</width>
-                <height>480</height>
+                <width>287</width>
+                <height>352</height>
                 <format>R8G8B8</format>
             </image>
             <clip>
@@ -933,7 +936,7 @@
             <depth_camera>
               <clip>
                 <near>0.1</near>
-                <far>10</far>
+                <far>6</far>
               </clip>
             </depth_camera>
             <noise>
@@ -943,7 +946,7 @@
             </noise>
         </camera>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>5</update_rate>
         <visualize>0</visualize>
 
         <pose frame="">0.0 0 0.03 0 0.0 0</pose>
@@ -1045,25 +1048,296 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
-    <!-- Gimbal Joints Plugins -->
-    <plugin
-      filename="libignition-gazebo-joint-position-controller-system.so"
-      name="ignition::gazebo::systems::JointPositionController  ">
-      <joint_name>pan_gimbal_joint</joint_name>
-      <p_gain>5</p_gain>
-    </plugin>
-    <plugin
-      filename="libignition-gazebo-joint-position-controller-system.so"
-      name="ignition::gazebo::systems::JointPositionController">
-      <joint_name>tilt_gimbal_joint</joint_name>
-      <p_gain>5</p_gain>
-    </plugin>
-    <plugin
-      filename="libignition-gazebo-joint-state-publisher-system.so"
-      name="ignition::gazebo::systems::JointStatePublisher">
-      <joint_name>pan_gimbal_joint</joint_name>
-      <joint_name>tilt_gimbal_joint</joint_name>
-    </plugin>
+
+    <!--Multiple Pan Tilt-->
+    <link name="pan_gimbal_rl_link">
+      <pose frame="">0.424 0 0.427 0 -0 0</pose>
+      <inertial>
+        <pose frame="">0 0 0 0 -0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.000016875</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00000001</iyy>
+          <iyz>0</iyz>
+          <izz>0.000016875</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <link name="tilt_gimbal_rl_link">
+      <pose frame="">0.424 0 0.460 0 -0 0</pose>
+      <inertial>
+        <pose frame="">0 0 0 1.570796 -0 0</pose>
+        <mass>0.1</mass>
+         <inertia>
+          <ixx>0.000016875</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00000001</iyy>
+          <iyz>0</iyz>
+          <izz>0.000016875</izz>
+        </inertia>
+      </inertial>
+      <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
+      <sensor name="camera_pan_tilt_rl" type="rgbd_camera">
+        <camera name="camera_pan_tilt_rl">
+            <horizontal_fov>1.74533</horizontal_fov>
+            <lens>
+                <intrinsics>
+                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                    <fx>209.75369</fx>
+                    <fy>209.75369</fy>
+                    <!-- cx = ( width + 1 ) / 2 -->
+                    <cx>176.7779</cx>
+                    <!-- cy = ( height + 1 ) / 2 -->
+                    <cy>147.824203</cy>
+                    <s>0</s>
+                </intrinsics>
+            </lens>
+            <distortion>
+                <k1>-0.32094</k1>
+                <k2>0.008704</k2>
+                <k3>-0.009904</k3>
+                <p1>-0.000535447</p1>
+                <p2>-0.000149773</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+                <width>287</width>
+                <height>352</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.01</near>
+                <far>300</far>
+            </clip>
+            <depth_camera>
+              <clip>
+                <near>0.1</near>
+                <far>6</far>
+              </clip>
+            </depth_camera>
+            <noise>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.007</stddev>
+            </noise>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>5</update_rate>
+        <visualize>0</visualize>
+
+        <pose frame="">0.0 0 0.03 0 0.0 0</pose>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+
+
+
+    <joint name="pan_gimbal_rl_joint" type="revolute">
+      <child>pan_gimbal_rl_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-2.4</lower>
+          <upper>2.4</upper>
+          <effort>10</effort>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <joint name="tilt_gimbal_rl_joint" type="revolute">
+      <child>tilt_gimbal_rl_link</child>
+      <parent>pan_gimbal_rl_link</parent>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1.5708</lower> <!-- 90 degrees both direction (mechanical interference)-->
+          <upper>1.5708</upper>
+          <effort>10</effort>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+
+    <!--Multiple Pan Tilt-->
+    <link name="pan_gimbal_sp_link">
+      <pose frame="">0.424 0 0.427 0 -0 0</pose>
+      <inertial>
+        <pose frame="">0 0 0 0 -0 0</pose>
+        <mass>0.1</mass>
+        <inertia>
+          <ixx>0.000016875</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00000001</iyy>
+          <iyz>0</iyz>
+          <izz>0.000016875</izz>
+        </inertia>
+      </inertial>
+    </link>
+    <link name="tilt_gimbal_sp_link">
+      <pose frame="">0.424 0 0.460 0 -0 0</pose>
+      <inertial>
+        <pose frame="">0 0 0 1.570796 -0 0</pose>
+        <mass>0.1</mass>
+         <inertia>
+          <ixx>0.000016875</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00000001</iyy>
+          <iyz>0</iyz>
+          <izz>0.000016875</izz>
+        </inertia>
+      </inertial>
+      <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
+      <sensor name="camera_pan_tilt_sp" type="rgbd_camera">
+        <camera name="camera_pan_tilt_sp">
+            <horizontal_fov>1.74533</horizontal_fov>
+            <lens>
+                <intrinsics>
+                    <!-- fx = fy = width / ( 2 * tan (hfov / 2 ) ) -->
+                    <fx>209.75369</fx>
+                    <fy>209.75369</fy>
+                    <!-- cx = ( width + 1 ) / 2 -->
+                    <cx>176.7779</cx>
+                    <!-- cy = ( height + 1 ) / 2 -->
+                    <cy>147.824203</cy>
+                    <s>0</s>
+                </intrinsics>
+            </lens>
+            <distortion>
+                <k1>-0.32094</k1>
+                <k2>0.008704</k2>
+                <k3>-0.009904</k3>
+                <p1>-0.000535447</p1>
+                <p2>-0.000149773</p2>
+                <center>0.5 0.5</center>
+            </distortion>
+            <image>
+                <width>287</width>
+                <height>352</height>
+                <format>R8G8B8</format>
+            </image>
+            <clip>
+                <near>0.01</near>
+                <far>300</far>
+            </clip>
+            <depth_camera>
+              <clip>
+                <near>0.1</near>
+                <far>6</far>
+              </clip>
+            </depth_camera>
+            <noise>
+                <type>gaussian</type>
+                <mean>0</mean>
+                <stddev>0.007</stddev>
+            </noise>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>5</update_rate>
+        <visualize>0</visualize>
+
+        <pose frame="">0.0 0 0.03 0 0.0 0</pose>
+      </sensor>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+
+
+
+    <joint name="pan_gimbal_sp_joint" type="revolute">
+      <child>pan_gimbal_sp_link</child>
+      <parent>base_link</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-2.4</lower>
+          <upper>2.4</upper>
+          <effort>10</effort>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+    <joint name="tilt_gimbal_sp_joint" type="revolute">
+      <child>tilt_gimbal_sp_link</child>
+      <parent>pan_gimbal_sp_link</parent>
+      <axis>
+        <xyz>0 -1 0</xyz>
+        <limit>
+          <lower>-1.5708</lower> <!-- 90 degrees both direction (mechanical interference)-->
+          <upper>1.5708</upper>
+          <effort>10</effort>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+          <damping>0.5</damping>
+        </dynamics>
+        <use_parent_model_frame>1</use_parent_model_frame>
+      </axis>
+    </joint>
+
+
+<!--Multiple Pan Tilt-->
+<plugin
+  filename="libignition-gazebo-joint-position-controller-system.so"
+  name="ignition::gazebo::systems::JointPositionController  ">
+  <joint_name>pan_gimbal_rl_joint</joint_name>
+  <p_gain>5</p_gain>
+</plugin>
+<plugin
+  filename="libignition-gazebo-joint-position-controller-system.so"
+  name="ignition::gazebo::systems::JointPositionController">
+  <joint_name>tilt_gimbal_rl_joint</joint_name>
+  <p_gain>5</p_gain>
+</plugin>
+<plugin
+  filename="libignition-gazebo-joint-state-publisher-system.so"
+  name="ignition::gazebo::systems::JointStatePublisher">
+  <joint_name>pan_gimbal_rl_joint</joint_name>
+  <joint_name>tilt_gimbal_rl_joint</joint_name>
+</plugin>
+
+<plugin
+  filename="libignition-gazebo-joint-position-controller-system.so"
+  name="ignition::gazebo::systems::JointPositionController  ">
+  <joint_name>pan_gimbal_sp_joint</joint_name>
+  <p_gain>5</p_gain>
+</plugin>
+<plugin
+  filename="libignition-gazebo-joint-position-controller-system.so"
+  name="ignition::gazebo::systems::JointPositionController">
+  <joint_name>tilt_gimbal_sp_joint</joint_name>
+  <p_gain>5</p_gain>
+</plugin>
+<plugin
+  filename="libignition-gazebo-joint-state-publisher-system.so"
+  name="ignition::gazebo::systems::JointStatePublisher">
+  <joint_name>pan_gimbal_sp_joint</joint_name>
+  <joint_name>tilt_gimbal_sp_joint</joint_name>
+</plugin>
+
     <static>0</static>
   </model>
 </sdf>
