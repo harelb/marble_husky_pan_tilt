@@ -436,6 +436,41 @@
         <pose frame="">0.424 0 0.387 0 -0 0</pose>
       </sensor>
 
+      <!--Ground Truth Lidar-->
+      <sensor name="front_laser_truth" type="gpu_lidar">
+        <visualize>0</visualize>
+        <update_rate>20</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <!-- Resolution can't be above 16k, see
+              https://bitbucket.org/ignitionrobotics/ign-sensors/issues/8 -->
+              <samples>2048</samples>
+              <resolution>1</resolution>
+              <min_angle>-3.1459</min_angle>
+              <max_angle>3.1459</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>256</samples>
+              <resolution>1</resolution>
+              <min_angle>-0.2897</min_angle>
+              <max_angle>1.497</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>1</min>
+            <max>120</max>
+            <resolution>0.003</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.00</stddev>
+          </noise>
+        </lidar>
+        <pose frame="">0.424 0 0.387 0 -0 0</pose>
+      </sensor>
+
 
       <sensor name="imu_sensor" type="imu">
         <always_on>1</always_on>

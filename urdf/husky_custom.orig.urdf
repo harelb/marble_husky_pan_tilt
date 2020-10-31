@@ -173,6 +173,10 @@
     <parent link='base_link'/>
     <origin xyz='0.424 0 0.402' rpy='0 -0 0'/>
   </sensor>
+  <sensor name='front_laser_truth' update_rate='20'>
+    <parent link='base_link'/>
+    <origin xyz='0.424 0 0.402' rpy='0 -0 0'/>
+  </sensor>
   <sensor name='imu_sensor' update_rate='50'>
     <parent link='base_link'/>
     <origin xyz='0 0 0' rpy='0 -0 0'/>
