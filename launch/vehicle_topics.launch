@@ -233,9 +233,9 @@
     <node
       pkg="ros_ign_bridge"
       type="parameter_bridge"
-      name="ros_ign_bridge_lidar3d"
+      name="ros_ign_bridge_lidar3d_truth"
       args="$(arg sensor_prefix)/front_laser_truth/scan/points@sensor_msgs/PointCloud2[ignition.msgs.PointCloudPacked">
-      <remap from="$(arg sensor_prefix)/front_laser_truth/scan/points" to="points"/>
+      <remap from="$(arg sensor_prefix)/front_laser_truth/scan/points" to="points_truth"/>
     </node>
 
     <!-- Planar Laser -->

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <robot name='marble_husky_pan_tilt' xmlns:xacro='http://ros.org/wiki/xacro'>
-  <xacro:arg name="name" default="marble_pan_tilt"/>
+  <xacro:arg name="name" default="marble_husky_pan_tilt"/>
   <xacro:property name="robot_namespace" value="$(arg name)"/>
   <link name='${robot_namespace}/base_link'>
     <inertial>
