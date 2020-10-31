@@ -86,7 +86,7 @@
       pkg="ros_ign_bridge"
       type="parameter_bridge"
       name="ros_ign_bridge_gimbal_tilt_rl"
-      args="/model/$(arg name)/joint/tilt_gimbal_rl_joint/0/cmd_posl@std_msgs/Float64]ignition.msgs.Double">
+      args="/model/$(arg name)/joint/tilt_gimbal_rl_joint/0/cmd_pos@std_msgs/Float64]ignition.msgs.Double">
       <remap from="/model/$(arg name)/joint/tilt_gimbal_rl_joint/0/cmd_pos" to="pan_tilt_rl/tilt_pos_cmd_double"/>
     </node>
 
