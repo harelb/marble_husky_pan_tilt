@@ -240,14 +240,14 @@
           </cylinder>
         </geometry>
       </visual>
-      <visual name="base_link_fixed_joint_lump__velodyne_gimbal_plate_15">
+      <!-- <visual name="base_link_fixed_joint_lump__velodyne_gimbal_plate_15">
        <pose frame="">0.424 0 0.400 0 -0 0</pose>
         <geometry>
           <box>
             <size>0.06 0.06 0.01</size>
           </box>
         </geometry>
-      </visual>
+      </visual> -->
       <visual name="base_link_fixed_joint_lump__sensor_tower_16">
        <pose frame="">0.374 0 0.215 0 -0 0</pose>
         <geometry>
@@ -315,7 +315,7 @@
             </noise>
         </camera>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>1</update_rate>
         <visualize>0</visualize>
         <pose frame="">0.468 0 0.360 0 -0 0</pose>
       </sensor>
@@ -367,7 +367,7 @@
             </noise>
         </camera>
         <always_on>1</always_on>
-        <update_rate>30</update_rate>
+        <update_rate>1</update_rate>
         <visualize>0</visualize>
         <pose frame="">0.468 0 0.335 0 0.5236 0</pose>
       </sensor>
@@ -847,7 +847,7 @@
         </contact>
       </surface>
       </collision>
-    -->
+
       <visual name="pan_gimbal_link_visual">
         <pose frame="">0.0 0 0.0 0 -0 0</pose>
         <geometry>
@@ -857,6 +857,7 @@
           </cylinder>
         </geometry>
       </visual>
+    -->
     </link>
     <link name="tilt_gimbal_link">
       <pose frame="">0.424 0 0.460 0 -0 0</pose>
@@ -890,7 +891,7 @@
         </contact>
       </surface>
       </collision>
-    -->
+
       <visual name="tilt_gimbal_link_visual">
         <pose frame="">0.0 0 0.0 1.570796 -0 0</pose>
         <geometry>
@@ -900,6 +901,7 @@
           </cylinder>
         </geometry>
       </visual>
+    -->
       <!-- Based on Intel realsense D435 (intrinsics and distortion not modeled)-->
       <sensor name="camera_pan_tilt" type="rgbd_camera">
         <camera name="camera_pan_tilt">
@@ -935,7 +937,7 @@
             </clip>
             <depth_camera>
               <clip>
-                <near>0.1</near>
+                <near>0.5</near>
                 <far>6</far>
               </clip>
             </depth_camera>
@@ -953,6 +955,7 @@
       </sensor>
       <gravity>1</gravity>
       <velocity_decay/>
+      <!--
       <visual name="tilt_gimbal_link_fixed_joint_lump__camera/camera_link_visual_0">
         <pose frame="">0 0 0.03 0 0.0 0</pose>
         <geometry>
@@ -961,7 +964,8 @@
           </mesh>
         </geometry>
       </visual>
-      <visual name="tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_1">
+    -->
+      <!--<visual name="tilt_gimbal_link_fixed_joint_lump_bot_camera_plate_link_visual_1">
        <pose frame="">0 0 0.017 0 -0 0</pose>
         <geometry>
           <box>
@@ -976,7 +980,7 @@
             <size>0.025 0.13 0.007</size>
           </box>
         </geometry>
-      </visual>
+      </visual> -->
       <light name="flashlight_flashlight_light_source_lamp_light" type="spot">
         <pose frame="">0.0 0.0 0.065 3.141592653589793 1.5707963267948966 -0.0015926535897931</pose>
         <attenuation>
@@ -995,7 +999,7 @@
         </spot>
         <direction>0 0 -1</direction>
       </light>
-      <visual name="flashlight_flashlight_light_source_lamp_viz_visual">
+  <!--    <visual name="flashlight_flashlight_light_source_lamp_viz_visual">
         <pose>0.0 0.0 0.065 3.141592653589793 1.5707963267948966 -0.0015926535897931</pose>
         <geometry>
           <cylinder>
@@ -1011,6 +1015,7 @@
           <emissive>1 1 1 1</emissive>
         </material>
       </visual>
+    -->
     </link>
     <joint name="pan_gimbal_joint" type="revolute">
       <child>pan_gimbal_link</child>
@@ -1114,7 +1119,7 @@
             </clip>
             <depth_camera>
               <clip>
-                <near>0.1</near>
+                <near>0.5</near>
                 <far>6</far>
               </clip>
             </depth_camera>
@@ -1239,7 +1244,7 @@
             </clip>
             <depth_camera>
               <clip>
-                <near>0.1</near>
+                <near>0.5</near>
                 <far>6</far>
               </clip>
             </depth_camera>

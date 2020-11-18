@@ -272,13 +272,14 @@
         <cylinder radius='0.014' length='0.045'/>
       </geometry>
     </collision>
-  -->
+  
     <visual name='pan_gimbal_link_visual'>
       <origin xyz='0 0 0' rpy='0 -0 0'/>
       <geometry>
         <cylinder radius='0.014' length='0.045'/>
       </geometry>
     </visual>
+  -->
   </link>
   <link name='${robot_namespace}/tilt_gimbal_link'>
     <inertial>
@@ -293,7 +294,7 @@
         <cylinder radius='0.014' length='0.045'/>
       </geometry>
     </collision>
-  -->
+
     <visual name='tilt_gimbal_link_visual'>
       <origin xyz='0 0 0' rpy='1.5708 -0 0'/>
       <geometry>
@@ -324,6 +325,7 @@
         <cylinder radius='0.019' length='0.005'/>
       </geometry>
     </visual>
+  -->
   </link>
 
   <!--Multiple Pan Tilt-->
